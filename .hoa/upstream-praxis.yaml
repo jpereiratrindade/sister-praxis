@@ -1,5 +1,6 @@
 schema: sister-praxis/upstream-praxis/v1
 recorded_at: "2026-08-18T12:50:50-03:00"
+updated_at: "2026-08-18T14:05:00-03:00"
 upstream:
   path: "/run/media/jpereiratrindade/labeco10T/dev/cpp/Praxis"
   branch: "integrate/praxis-lic-001-main"
@@ -7,4 +8,4 @@ upstream:
   describe: "praxis-identity-migration-20260811-8-g41d156b"
 relationship:
   kind: governed-successor-runtime
-  semantics: Praxis is the canonical methodological predecessor; SisTer-Praxis operationalizes governed evaluation and decision support.
+  semantics: Praxis is the canonical methodological predecessor; SisTer-Praxis preserves its governed core while materializing shared reflexive and temporally identified computation without owning domain semantics.

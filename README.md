@@ -1,31 +1,70 @@
 # SisTer-Praxis
 
-**Governed Evaluation and Decision Support** para o ecossistema SisTer.
+**Núcleo reflexivo, temporal e governado de computação, avaliação e suporte à decisão** para o ecossistema SisTer.
 
-SisTer-Praxis materializa uma gramática governada entre evidência e decisão:
+O SisTer-Praxis parte de uma gramática já materializada entre evidência e decisão:
 
-`Evidence -> Measurement -> Indicator/Criterion -> Claim -> Assessment -> Decision -> Successor`
+`Evidence -> Measurement -> Criterion -> Claim -> Assessment -> Authority -> Decision -> Successor`
 
-Princípios constitutivos do bootstrap:
+A partir da revisão arquitetural v0.2, esse conjunto passa a ser explicitamente tratado como **Praxis Core**. Capacidades adicionais podem integrar-se a esse núcleo por um runtime compartilhado de transformações governadas, sem ampliar o core até que ele domine a semântica dos demais subsistemas.
 
-- medir, avaliar e decidir são operações distintas;
-- toda avaliação material referencia um `EvaluationContract` versionado;
-- evidências carregam identidade e proveniência;
-- mudanças materiais de critério produzem sucessores em vez de reinterpretação silenciosa;
-- gates são critérios executáveis, não a totalidade da avaliação;
-- perfis de avaliação especializam um núcleo comum sem codificar o domínio no core;
-- REA disciplina percepção/revisão; RIT preserva integridade temporal; Reflexa observa trajetórias; SisTer-Praxis avalia e governa decisões.
+## Fronteira constitutiva
+
+O `sister_praxis_core` preserva conceitos fundamentais e estáveis:
+
+- identidade de estados e referências;
+- evidência e proveniência;
+- medidas, critérios e avaliações;
+- estados epistêmicos;
+- autoridade, decisão e sucessão;
+- trilha de auditoria;
+- integridade temporal como princípio de transição.
+
+O `sister_praxis_runtime` acrescenta mecanismos compartilháveis:
+
+- registro de serviços de transformação;
+- execução de transformações identificadas;
+- preservação de `owner` semântico externo ao core;
+- contrato e implementação versionados;
+- estado predecessor e estado sucessor;
+- contexto temporal;
+- inputs, parâmetros, outputs e proveniência;
+- recibo reconstruível da execução.
+
+**Centralizar mecanismos compartilhados não implica centralizar o domínio.**
+
+Um serviço pode ser semanticamente propriedade de SisTer-Atmos, SisTer-Memória, SisTer-Reflexa ou outro componente, enquanto reutiliza o runtime comum do Praxis. O core não precisa conhecer precipitação, documentos, trajetórias ou qualquer ontologia particular para preservar as propriedades fundamentais de uma transformação.
+
+## Regra de integração
+
+Uma capacidade é candidata ao runtime compartilhado quando a execução precisa preservar uma ou mais destas propriedades:
+
+- identidade do estado derivado;
+- proveniência;
+- contrato e versão;
+- contexto temporal;
+- relação predecessor/sucessor;
+- reprodutibilidade;
+- auditabilidade;
+- composição com outras transformações;
+- reutilização transversal entre domínios.
+
+A semântica especializada, os invariantes científicos e a propriedade do serviço permanecem no domínio que os define.
 
 ## Verificação
 
 ```bash
 ./scripts/verify.sh
 ./build/sister-praxis-cli demo
+./build/sister-praxis-cli demo-core
+./build/sister-praxis-cli demo-runtime
 ```
 
-## Estado A0
+## Estado atual
 
-Este bootstrap entrega um núcleo C++23 compilável, teste unitário mínimo, trilha de auditoria JSONL, contratos JSON Schema, perfis de avaliação e superfícies de API/UI declarativas. Persistência SQLite, HTTP e integração Reflexa entram nas fatias verticais seguintes.
+A revisão v0.2 preserva integralmente o A0 de avaliação governada e acrescenta uma prova arquitetural mínima de **core + governed transformation runtime**. Ainda não implementa persistência SQLite, servidor HTTP, execução assíncrona, filas, cache ou bridge funcional com outros subsistemas.
+
+As superfícies OpenAPI continuam declarativas e agora incluem o contrato futuro de catálogo e execução de serviços.
 
 ## Licença
 

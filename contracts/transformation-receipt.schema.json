@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sister.local/schemas/praxis/transformation-receipt.schema.json",
+  "title": "SisTer-Praxis Transformation Receipt",
+  "type": "object",
+  "required": [
+    "run_id",
+    "service_id",
+    "owner",
+    "kind",
+    "contract_ref",
+    "implementation_ref",
+    "version",
+    "predecessor_state_id",
+    "successor_state_id",
+    "input_refs",
+    "output_refs",
+    "temporal_context",
+    "provenance_ref"
+  ],
+  "properties": {
+    "run_id": {"type": "string", "minLength": 1},
+    "service_id": {"type": "string", "minLength": 1},
+    "owner": {"type": "string", "minLength": 1},
+    "kind": {
+      "type": "string",
+      "enum": ["analysis", "derivation", "aggregation", "comparison", "evaluation", "projection", "conversion"]
+    },
+    "contract_ref": {"type": "string", "minLength": 1},
+    "implementation_ref": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "predecessor_state_id": {"type": "string", "minLength": 1},
+    "successor_state_id": {"type": "string", "minLength": 1},
+    "input_refs": {"type": "array", "items": {"type": "string"}},
+    "output_refs": {"type": "array", "items": {"type": "string"}},
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "value"],
+        "properties": {
+          "key": {"type": "string"},
+          "value": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "temporal_context": {
+      "type": "object",
+      "properties": {
+        "observed_at": {"type": "string"},
+        "valid_at": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "provenance_ref": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

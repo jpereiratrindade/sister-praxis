@@ -1,7 +1,8 @@
 openapi: 3.1.0
 info:
   title: SisTer-Praxis API
-  version: 0.1.0
+  version: 0.2.0
+  description: Declarative API surface for Praxis Core and the governed transformation runtime.
 paths:
   /health:
     get:
@@ -28,6 +29,28 @@ paths:
     post:
       responses:
         '201': {description: governed decision recorded}
+  /services:
+    get:
+      responses:
+        '200': {description: list registered transformation services}
+  /services/{service_id}/runs:
+    parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema: {type: string}
+    post:
+      responses:
+        '202': {description: transformation accepted for execution}
+  /runs/{run_id}:
+    parameters:
+      - in: path
+        name: run_id
+        required: true
+        schema: {type: string}
+    get:
+      responses:
+        '200': {description: transformation receipt and current run state}
   /audit/events:
     get:
       responses:
