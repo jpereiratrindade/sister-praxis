@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(sister_praxis VERSION 0.2.0 LANGUAGES CXX)
+project(sister_praxis VERSION 0.2.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -28,9 +28,20 @@ target_include_directories(sister_praxis_runtime PUBLIC include)
 target_link_libraries(sister_praxis_runtime PUBLIC sister_praxis_core)
 sister_praxis_strict(sister_praxis_runtime)
 
+add_library(sister_praxis_http
+  src/http.cpp
+)
+target_include_directories(sister_praxis_http PUBLIC include)
+target_link_libraries(sister_praxis_http PUBLIC sister_praxis_runtime)
+sister_praxis_strict(sister_praxis_http)
+
 add_executable(sister-praxis-cli src/main.cpp)
 target_link_libraries(sister-praxis-cli PRIVATE sister_praxis_runtime)
 sister_praxis_strict(sister-praxis-cli)
+
+add_executable(sister-praxis-http src/http_main.cpp)
+target_link_libraries(sister-praxis-http PRIVATE sister_praxis_http)
+sister_praxis_strict(sister-praxis-http)
 
 enable_testing()
 
@@ -43,3 +54,8 @@ add_executable(sister_praxis_runtime_test tests/runtime_test.cpp)
 target_link_libraries(sister_praxis_runtime_test PRIVATE sister_praxis_runtime)
 sister_praxis_strict(sister_praxis_runtime_test)
 add_test(NAME sister_praxis_runtime_test COMMAND sister_praxis_runtime_test)
+
+add_executable(sister_praxis_http_test tests/http_test.cpp)
+target_link_libraries(sister_praxis_http_test PRIVATE sister_praxis_http)
+sister_praxis_strict(sister_praxis_http_test)
+add_test(NAME sister_praxis_http_test COMMAND sister_praxis_http_test)

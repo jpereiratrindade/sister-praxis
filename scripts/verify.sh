@@ -17,4 +17,4 @@ cmake -S . -B build "${GEN[@]}" -DCMAKE_BUILD_TYPE=Debug -DSISTER_PRAXIS_WARNING
 cmake --build build
 ctest --test-dir build --output-on-failure
 ./build/sister-praxis-cli demo
-printf '\n[PASS] SisTer-Praxis A0-R1 core/runtime verification\n'
+printf '\n[PASS] SisTer-Praxis A0-R2 core/runtime/http verification\n'

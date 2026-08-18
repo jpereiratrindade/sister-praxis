@@ -51,6 +51,22 @@ Uma capacidade é candidata ao runtime compartilhado quando a execução precisa
 
 A semântica especializada, os invariantes científicos e a propriedade do serviço permanecem no domínio que os define.
 
+## Fronteira HTTP A0-R2
+
+A primeira borda HTTP executável é deliberadamente mínima e somente de leitura:
+
+- `GET /health`: readiness de core, runtime e camada HTTP;
+- `GET /services`: descoberta dos serviços registrados no runtime.
+
+O executável `sister-praxis-http` aceita apenas `127.0.0.1` como bind nesta fatia e usa a porta `8093` por padrão. A exposição LAN deve ocorrer exclusivamente pelo gateway do ecossistema. Recursos mutáveis e leitura persistente de runs permanecem fora desta fatia até as etapas governadas de persistência, contratos e API completa.
+
+```bash
+./scripts/http_service.sh start
+curl -fsS http://127.0.0.1:8093/health
+curl -fsS http://127.0.0.1:8093/services
+./scripts/http_service.sh stop
+```
+
 ## Verificação
 
 ```bash
@@ -58,13 +74,14 @@ A semântica especializada, os invariantes científicos e a propriedade do servi
 ./build/sister-praxis-cli demo
 ./build/sister-praxis-cli demo-core
 ./build/sister-praxis-cli demo-runtime
+./build/sister-praxis-http --bind 127.0.0.1 --port 8093
 ```
 
 ## Estado atual
 
-A revisão v0.2 preserva integralmente o A0 de avaliação governada e acrescenta uma prova arquitetural mínima de **core + governed transformation runtime**. Ainda não implementa persistência SQLite, servidor HTTP, execução assíncrona, filas, cache ou bridge funcional com outros subsistemas.
+A revisão v0.2.1 preserva integralmente o A0 e o A0-R1 e acrescenta uma borda HTTP mínima de conectividade e descoberta. Persistência SQLite, execução de runs via HTTP, execução assíncrona, filas, cache e bridge funcional com outros subsistemas ainda não estão implementados.
 
-As superfícies OpenAPI continuam declarativas e agora incluem o contrato futuro de catálogo e execução de serviços.
+A OpenAPI distingue a superfície já executável (`/health`, `/services`) dos recursos declarativos que serão materializados em fatias posteriores.
 
 ## Licença
 

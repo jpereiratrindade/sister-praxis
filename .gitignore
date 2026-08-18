@@ -5,3 +5,6 @@
 /.cache/
 *.swp
 *.tmp
+
+/var/run/
+/var/log/

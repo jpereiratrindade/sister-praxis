@@ -152,10 +152,27 @@ Nova biblioteca separada com:
 
 O teste de runtime registra um serviço cujo `owner` é externo ao core e verifica que a execução preserva contrato, implementação, predecessor, sucessor e proveniência.
 
-## 9. Fatias verticais revisadas
+## 9. Borda HTTP A0-R2
+
+A0-R2 adiciona uma terceira biblioteca, `sister_praxis_http`, dependente do runtime e, indiretamente, do core. A dependência permanece unidirecional:
+
+```text
+Praxis Core
+    ↑
+Governed Transformation Runtime
+    ↑
+HTTP Boundary
+    ↑
+Gateway / ecossistema
+```
+
+A fatia executa apenas `GET /health` e `GET /services`, suficientes para readiness e descoberta pelo gateway. O servidor recusa bind diferente de `127.0.0.1`, preservando o HAProxy como fronteira LAN. Execução de runs e demais mutações continuam reservadas para a API governada completa.
+
+## 10. Fatias verticais revisadas
 
 - **A0**: Praxis Core C++23 + contratos de avaliação + perfis + audit trail local + CLI.
 - **A0-R1**: separação explícita Core/Runtime + transformação governada mínima + service registry local.
+- **A0-R2**: borda HTTP local read-only + readiness + service discovery; exposição externa somente via gateway.
 - **A1**: persistência SQLite para estados, serviços, runs, receipts e avaliações.
 - **A2**: contratos completos e validação executável de schemas.
 - **A3**: API HTTP executável para core e runtime.
