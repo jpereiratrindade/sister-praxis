@@ -1,9 +1,13 @@
 openapi: 3.1.0
 info:
   title: SisTer-Praxis API
-  version: 0.2.1
-  description: API surface for Praxis Core and governed transformation runtime. A0-R2 executes health and service discovery; mutation/readback resources remain declarative until later governed slices.
+  version: 0.2.2
+  description: API surface for Praxis Core and governed transformation runtime. A0-R2-UI executes the web overview, health and service discovery; mutation/readback resources remain declarative until later governed slices.
 paths:
+  /:
+    get:
+      responses:
+        '200': {description: Praxis web overview}
   /health:
     get:
       responses:

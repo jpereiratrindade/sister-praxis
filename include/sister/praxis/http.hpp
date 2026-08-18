@@ -16,12 +16,13 @@ struct Response {
 
 class Application {
 public:
-    explicit Application(const runtime::ServiceRegistry& registry) noexcept;
+    explicit Application(const runtime::ServiceRegistry& registry, std::string index_html = {}) noexcept;
 
     [[nodiscard]] Response handle(std::string_view method, std::string_view path) const;
 
 private:
     const runtime::ServiceRegistry& registry_;
+    std::string index_html_;
 };
 
 [[nodiscard]] std::string reason_phrase(int status);

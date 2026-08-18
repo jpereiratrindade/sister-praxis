@@ -6,6 +6,7 @@ LOG_FILE="$ROOT/var/log/sister-praxis-http.log"
 BIN="$ROOT/build/sister-praxis-http"
 BIND="${SISTER_PRAXIS_HTTP_BIND:-127.0.0.1}"
 PORT="${SISTER_PRAXIS_HTTP_PORT:-8093}"
+WEB_INDEX="${SISTER_PRAXIS_WEB_INDEX:-$ROOT/web/index.html}"
 
 mkdir -p "$ROOT/var/run" "$ROOT/var/log"
 
@@ -27,7 +28,7 @@ case "${1:-status}" in
       echo "[FAIL] A0-R2 requires loopback bind; got $BIND"
       exit 3
     fi
-    nohup "$BIN" --bind "$BIND" --port "$PORT" >>"$LOG_FILE" 2>&1 &
+    nohup "$BIN" --bind "$BIND" --port "$PORT" --web-index "$WEB_INDEX" >>"$LOG_FILE" 2>&1 &
     echo $! > "$PID_FILE"
     sleep 0.2
     if ! is_running; then

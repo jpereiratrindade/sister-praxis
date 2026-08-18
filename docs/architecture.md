@@ -152,7 +152,7 @@ Nova biblioteca separada com:
 
 O teste de runtime registra um serviço cujo `owner` é externo ao core e verifica que a execução preserva contrato, implementação, predecessor, sucessor e proveniência.
 
-## 9. Borda HTTP A0-R2
+## 9. Borda HTTP e superfície web A0-R2-UI
 
 A0-R2 adiciona uma terceira biblioteca, `sister_praxis_http`, dependente do runtime e, indiretamente, do core. A dependência permanece unidirecional:
 
@@ -166,13 +166,15 @@ HTTP Boundary
 Gateway / ecossistema
 ```
 
-A fatia executa apenas `GET /health` e `GET /services`, suficientes para readiness e descoberta pelo gateway. O servidor recusa bind diferente de `127.0.0.1`, preservando o HAProxy como fronteira LAN. Execução de runs e demais mutações continuam reservadas para a API governada completa.
+A fatia executa `GET /`, `GET /health` e `GET /services`. A raiz serve uma superfície web inicial de visão geral que consulta os dois endpoints read-only na mesma origem, mantendo a identidade visual do ecossistema sem antecipar capacidades ainda inexistentes. Readiness e descoberta permanecem suficientes para a borda atual.
+
+O servidor recusa bind diferente de `127.0.0.1`, preservando o HAProxy como fronteira LAN. Execução de runs, persistência, avaliações mutáveis e inspeção auditável profunda continuam reservadas para fatias posteriores. A superfície A0-R2-UI é uma visão operacional honesta do estado atual, não substitui a futura superfície A4.
 
 ## 10. Fatias verticais revisadas
 
 - **A0**: Praxis Core C++23 + contratos de avaliação + perfis + audit trail local + CLI.
 - **A0-R1**: separação explícita Core/Runtime + transformação governada mínima + service registry local.
-- **A0-R2**: borda HTTP local read-only + readiness + service discovery; exposição externa somente via gateway.
+- **A0-R2-UI**: borda HTTP local read-only + readiness + service discovery + página inicial de visão geral; exposição externa somente via gateway.
 - **A1**: persistência SQLite para estados, serviços, runs, receipts e avaliações.
 - **A2**: contratos completos e validação executável de schemas.
 - **A3**: API HTTP executável para core e runtime.

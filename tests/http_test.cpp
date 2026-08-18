@@ -27,7 +27,14 @@ int main() {
             };
         });
 
-    const http::Application app{registry};
+    const std::string test_page = "<!doctype html><title>Praxis</title><main>SisTer-Praxis</main>";
+    const http::Application app{registry, test_page};
+
+    const auto home = app.handle("GET", "/");
+    assert(home.status == 200);
+    assert(home.content_type == "text/html; charset=utf-8");
+    assert(home.body == test_page);
+    assert(app.handle("GET", "/index.html").body == test_page);
 
     const auto health = app.handle("GET", "/health");
     assert(health.status == 200);
@@ -42,9 +49,12 @@ int main() {
     assert(app.handle("GET", "/missing").status == 404);
     assert(app.handle("POST", "/services").status == 405);
 
-    const auto wire = http::serialize_response(health);
+    const auto wire = http::serialize_response(home);
     assert(wire.find("HTTP/1.1 200 OK\r\n") == 0U);
+    assert(wire.find("Content-Type: text/html; charset=utf-8\r\n") != std::string::npos);
     assert(wire.find("Cache-Control: no-store\r\n") != std::string::npos);
+    assert(wire.find("X-Content-Type-Options: nosniff\r\n") != std::string::npos);
+    assert(wire.find("Content-Security-Policy:") != std::string::npos);
 
     return 0;
 }

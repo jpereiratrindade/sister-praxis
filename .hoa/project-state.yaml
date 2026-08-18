@@ -4,12 +4,12 @@ name: SisTer-Praxis
 role: subsystem
 domain: governed_reflexive_computation_and_decision_support
 language: C++23
-bootstrap_version: "v0.2.1"
+bootstrap_version: "v0.2.2"
 created_at: "2026-08-18T12:50:50-03:00"
-updated_at: "2026-08-18T14:40:00-03:00"
+updated_at: "2026-08-18T15:21:00-03:00"
 state:
-  milestone: A0-R2
-  implementation: HTTP_BOUNDARY_DISCOVERY
+  milestone: A0-R2-UI
+  implementation: HTTP_BOUNDARY_DISCOVERY_WITH_WEB_SURFACE
   verification: LOCAL_PASS
   promotion: CANDIDATE
 upstream_praxis_commit: "41d156b0a2095389e0275c954e31a41f3ce50868"

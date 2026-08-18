@@ -2,6 +2,7 @@
 #include "sister/praxis/http.hpp"
 
 #include <sstream>
+#include <utility>
 
 namespace sister::praxis::http {
 namespace {
@@ -26,7 +27,7 @@ Response health_response() {
     return Response{
         .status = 200,
         .content_type = "application/json; charset=utf-8",
-        .body = R"({"system":"sister_praxis","status":"ready","core":"ready","runtime":"ready","http":"ready","version":"0.2.1"})",
+        .body = R"({"system":"sister_praxis","status":"ready","core":"ready","runtime":"ready","http":"ready","version":"0.2.2"})",
     };
 }
 
@@ -54,11 +55,22 @@ Response services_response(const runtime::ServiceRegistry& registry) {
 
 } // namespace
 
-Application::Application(const runtime::ServiceRegistry& registry) noexcept : registry_(registry) {}
+Application::Application(const runtime::ServiceRegistry& registry, std::string index_html) noexcept
+    : registry_(registry), index_html_(std::move(index_html)) {}
 
 Response Application::handle(const std::string_view method, const std::string_view path) const {
     if (method != "GET") {
         return Response{.status = 405, .body = R"({"error":"method_not_allowed"})"};
+    }
+    if (path == "/" || path == "/index.html") {
+        if (index_html_.empty()) {
+            return Response{.status = 404, .body = R"({"error":"web_surface_unavailable"})"};
+        }
+        return Response{
+            .status = 200,
+            .content_type = "text/html; charset=utf-8",
+            .body = index_html_,
+        };
     }
     if (path == "/health") {
         return health_response();
@@ -85,6 +97,11 @@ std::string serialize_response(const Response& response) {
         << "Content-Length: " << response.body.size() << "\r\n"
         << "Connection: close\r\n"
         << "Cache-Control: no-store\r\n"
+        << "X-Content-Type-Options: nosniff\r\n"
+        << "Referrer-Policy: no-referrer\r\n"
+        << "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; "
+           "script-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; "
+           "frame-ancestors 'none'\r\n"
         << "\r\n"
         << response.body;
     return out.str();

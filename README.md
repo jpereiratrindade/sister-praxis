@@ -51,12 +51,15 @@ Uma capacidade é candidata ao runtime compartilhado quando a execução precisa
 
 A semântica especializada, os invariantes científicos e a propriedade do serviço permanecem no domínio que os define.
 
-## Fronteira HTTP A0-R2
+## Fronteira HTTP e superfície web A0-R2
 
 A primeira borda HTTP executável é deliberadamente mínima e somente de leitura:
 
+- `GET /`: superfície web de visão geral, alinhada à identidade visual do ecossistema;
 - `GET /health`: readiness de core, runtime e camada HTTP;
 - `GET /services`: descoberta dos serviços registrados no runtime.
+
+A página inicial consulta `/health` e `/services` na mesma origem e diferencia explicitamente capacidades já materializadas de funções futuras. Ela não introduz mutações nem antecipa persistência, runs ou avaliações ainda inexistentes.
 
 O executável `sister-praxis-http` aceita apenas `127.0.0.1` como bind nesta fatia e usa a porta `8093` por padrão. A exposição LAN deve ocorrer exclusivamente pelo gateway do ecossistema. Recursos mutáveis e leitura persistente de runs permanecem fora desta fatia até as etapas governadas de persistência, contratos e API completa.
 
@@ -79,7 +82,7 @@ curl -fsS http://127.0.0.1:8093/services
 
 ## Estado atual
 
-A revisão v0.2.1 preserva integralmente o A0 e o A0-R1 e acrescenta uma borda HTTP mínima de conectividade e descoberta. Persistência SQLite, execução de runs via HTTP, execução assíncrona, filas, cache e bridge funcional com outros subsistemas ainda não estão implementados.
+A revisão v0.2.2 preserva integralmente o A0 e o A0-R1 e acrescenta uma borda HTTP mínima de conectividade e descoberta, agora com uma superfície web inicial servida em `/`. Persistência SQLite, execução de runs via HTTP, execução assíncrona, filas, cache e bridge funcional com outros subsistemas ainda não estão implementados.
 
 A OpenAPI distingue a superfície já executável (`/health`, `/services`) dos recursos declarativos que serão materializados em fatias posteriores.
 

@@ -6,7 +6,9 @@
 #include <cerrno>
 #include <csignal>
 #include <cstring>
+#include <fstream>
 #include <iostream>
+#include <iterator>
 #include <poll.h>
 #include <stdexcept>
 #include <string>
@@ -48,6 +50,7 @@ sister::praxis::runtime::ServiceRegistry make_registry() {
 struct Options {
     std::string bind_address{"127.0.0.1"};
     unsigned short port{8093};
+    std::string web_index{"web/index.html"};
 };
 
 Options parse_options(const int argc, char** argv) {
@@ -62,14 +65,26 @@ Options parse_options(const int argc, char** argv) {
                 throw std::invalid_argument("port out of range");
             }
             options.port = static_cast<unsigned short>(value);
+        } else if (arg == "--web-index" && i + 1 < argc) {
+            options.web_index = argv[++i];
         } else {
-            throw std::invalid_argument("usage: sister-praxis-http [--bind 127.0.0.1] [--port 8093]");
+            throw std::invalid_argument(
+                "usage: sister-praxis-http [--bind 127.0.0.1] [--port 8093] [--web-index path]");
         }
     }
     if (options.bind_address != "127.0.0.1") {
         throw std::invalid_argument("A0-R2 HTTP boundary must bind to 127.0.0.1");
     }
     return options;
+}
+
+
+std::string read_text_file(const std::string& path) {
+    std::ifstream input{path, std::ios::binary};
+    if (!input) {
+        throw std::runtime_error("cannot open web index: " + path);
+    }
+    return std::string{std::istreambuf_iterator<char>{input}, std::istreambuf_iterator<char>{}};
 }
 
 std::pair<std::string, std::string> parse_request_line(const std::string_view request) {
@@ -108,7 +123,8 @@ int main(int argc, char** argv) {
     try {
         const auto options = parse_options(argc, argv);
         const auto registry = make_registry();
-        const sister::praxis::http::Application app{registry};
+        const auto index_html = read_text_file(options.web_index);
+        const sister::praxis::http::Application app{registry, index_html};
 
         std::signal(SIGINT, handle_signal);
         std::signal(SIGTERM, handle_signal);

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(sister_praxis VERSION 0.2.1 LANGUAGES CXX)
+project(sister_praxis VERSION 0.2.2 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
