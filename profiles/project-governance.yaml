@@ -1,0 +1,9 @@
+profile: project_governance
+version: 1
+dimensions:
+  - contract_integrity
+  - evidence_resolution
+  - gate_semantics
+  - transition_validity
+  - promotion_authority
+  - reproducibility

@@ -1,0 +1,15 @@
+profile: adaptive_management
+version: 1
+dimensions:
+  - objectives
+  - alternatives
+  - uncertainty
+  - action
+  - monitoring
+  - learning
+  - successor_decision
+  - effects
+requirements:
+  predecessor_state_required: true
+  evidence_link_required: true
+  material_change_requires_successor: true

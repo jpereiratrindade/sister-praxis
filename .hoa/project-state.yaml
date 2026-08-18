@@ -1,0 +1,14 @@
+schema: sister-praxis/project-state/v1
+system_id: sister_praxis
+name: SisTer-Praxis
+role: subsystem
+domain: governed_evaluation_and_decision_support
+language: C++23
+bootstrap_version: "v0.1.0"
+created_at: "2026-08-18T12:50:50-03:00"
+state:
+  milestone: A0
+  implementation: BOOTSTRAPPED
+  verification: LOCAL_PASS
+  promotion: CANDIDATE
+upstream_praxis_commit: "41d156b0a2095389e0275c954e31a41f3ce50868"

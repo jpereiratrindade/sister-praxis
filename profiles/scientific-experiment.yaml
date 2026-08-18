@@ -1,0 +1,11 @@
+profile: scientific_experiment
+version: 1
+dimensions:
+  - prior_commitment
+  - prediction
+  - observation
+  - evidence
+  - surprise
+  - causal_interpretation
+  - successor_question
+  - reproducibility

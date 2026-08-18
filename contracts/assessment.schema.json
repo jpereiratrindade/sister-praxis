@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sister.local/schemas/praxis/assessment.schema.json",
+  "title": "SisTer-Praxis Assessment",
+  "type": "object",
+  "required": ["id", "contract_ref", "subject_state", "measurements", "claims", "conclusion", "evaluated_at", "evaluator"],
+  "properties": {
+    "id": {"type": "string"},
+    "contract_ref": {"type": "string"},
+    "subject_state": {"type": "string"},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "measurements": {"type": "array", "items": {"type": "object"}},
+    "indicators": {"type": "array", "items": {"type": "object"}},
+    "claims": {"type": "array", "items": {"type": "object"}},
+    "uncertainties": {"type": "array"},
+    "contradictions": {"type": "array"},
+    "missing_evidence": {"type": "array"},
+    "conclusion": {"type": "object"},
+    "evaluated_at": {"type": "string"},
+    "evaluator": {"type": "string"}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,7 @@
+/build/
+/var/*.db
+/var/*.sqlite
+/var/audit/*.jsonl
+/.cache/
+*.swp
+*.tmp

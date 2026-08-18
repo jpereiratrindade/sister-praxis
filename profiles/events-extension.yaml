@@ -1,0 +1,12 @@
+profile: events_extension
+version: 1
+dimensions:
+  - reach_evidence
+  - actor_diversity
+  - participation
+  - knowledge_exchange
+  - decision_change
+  - successor_actions
+  - later_effects
+notes:
+  activity_type_is_not_reflexivity_score: true

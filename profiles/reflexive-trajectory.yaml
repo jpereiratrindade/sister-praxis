@@ -1,0 +1,14 @@
+profile: reflexive_trajectory
+version: 1
+subject_types: [trajectory, project, system]
+dimensions:
+  - evidence_quality
+  - provenance_completeness
+  - evidence_decision_connection
+  - succession_clarity
+  - temporal_integrity
+  - effect_observability
+  - revision_capacity
+aggregation:
+  default: vector
+  scalar_index: disabled_until_validated

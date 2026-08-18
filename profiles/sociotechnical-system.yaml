@@ -1,0 +1,19 @@
+profile: sociotechnical_system
+version: 1
+dimensions:
+  - actors
+  - relations
+  - roles
+  - authorities
+  - resources
+  - information_flows
+  - dependencies
+  - objectives
+  - rules
+  - feedbacks
+  - capabilities
+  - evidence
+analysis:
+  state_model: temporal
+  compare_successors: true
+  preserve_competing_interpretations: true

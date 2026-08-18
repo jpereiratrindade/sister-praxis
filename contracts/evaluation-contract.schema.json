@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sister.local/schemas/praxis/evaluation-contract.schema.json",
+  "title": "SisTer-Praxis Evaluation Contract",
+  "type": "object",
+  "required": ["id", "version", "subject", "purpose", "dimensions", "evidence_policy", "authority", "successor_policy"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "version": {"type": "integer", "minimum": 1},
+    "subject": {
+      "type": "object",
+      "required": ["type", "ref"],
+      "properties": {
+        "type": {"type": "string"},
+        "ref": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "purpose": {
+      "type": "object",
+      "required": ["question", "decision_to_support"],
+      "properties": {
+        "question": {"type": "string"},
+        "decision_to_support": {"type": "string"}
+      }
+    },
+    "temporal_identity": {"type": "object"},
+    "dimensions": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "evidence_policy": {"type": "object"},
+    "uncertainty_policy": {"type": "object"},
+    "aggregation_policy": {"type": "object"},
+    "authority": {"type": "object"},
+    "successor_policy": {"type": "object"}
+  },
+  "additionalProperties": false
+}

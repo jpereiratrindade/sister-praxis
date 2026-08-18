@@ -1,0 +1,14 @@
+profile: resilience
+version: 1
+representation: vector
+dimensions:
+  - id: continuity
+  - id: perturbation_perception
+  - id: adaptive_capacity
+  - id: learning
+  - id: temporal_integrity
+  - id: evidence_verifiability
+aggregation:
+  scalar_index: candidate
+  default: disabled
+  rationale: preserve multidimensionality until scales and trade-offs are validated
