@@ -65,12 +65,17 @@ case "${1:-status}" in
       exit 1
     fi
     ;;
+  health)
+    curl --fail --silent --show-error \
+      "http://${BIND}:${PORT}/health"
+    printf '\n'
+    ;;
   restart)
     "$0" stop || true
     "$0" start
     ;;
   *)
-    echo "usage: $0 start|stop|restart|status"
+    echo "usage: $0 start|stop|restart|status|health"
     exit 64
     ;;
 esac
