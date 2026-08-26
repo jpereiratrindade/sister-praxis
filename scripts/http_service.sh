@@ -1,6 +1,40 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+
+load_deployment_binding() {
+  local resolved="${SISTER_RESOLVED_DEPLOYMENT_FILE:-}"
+  [[ -n "$resolved" ]] || return 0
+  [[ -f "$resolved" ]] || {
+    echo "[FAIL] deployment resolvido ausente: $resolved" >&2
+    return 1
+  }
+  command -v jq >/dev/null 2>&1 || {
+    echo "[FAIL] jq é necessário para consumir deployment resolvido" >&2
+    return 1
+  }
+
+  local system_id transport
+  system_id="$(jq -er '.system_id' "$ROOT/.sister/component.json")"
+  transport="$(jq -er --arg id "$system_id" \
+    '.components[] | select(.system_id == $id) | .runtime.transport' \
+    "$resolved")"
+  [[ "$transport" == "tcp" ]] || {
+    echo "[FAIL] runtime Praxis ainda requer binding TCP" >&2
+    return 1
+  }
+  export SISTER_PRAXIS_HTTP_BIND
+  export SISTER_PRAXIS_HTTP_PORT
+  SISTER_PRAXIS_HTTP_BIND="$(jq -er --arg id "$system_id" \
+    '.components[] | select(.system_id == $id) | .runtime.listen' \
+    "$resolved")"
+  SISTER_PRAXIS_HTTP_PORT="$(jq -er --arg id "$system_id" \
+    '.components[] | select(.system_id == $id) | .runtime.port' \
+    "$resolved")"
+}
+
+load_deployment_binding
+
 PID_FILE="$ROOT/var/run/sister-praxis-http.pid"
 LOG_FILE="$ROOT/var/log/sister-praxis-http.log"
 BIN="$ROOT/build/sister-praxis-http"

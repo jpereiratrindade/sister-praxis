@@ -59,3 +59,10 @@ add_executable(sister_praxis_http_test tests/http_test.cpp)
 target_link_libraries(sister_praxis_http_test PRIVATE sister_praxis_http)
 sister_praxis_strict(sister_praxis_http_test)
 add_test(NAME sister_praxis_http_test COMMAND sister_praxis_http_test)
+
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
+add_test(
+  NAME sister_praxis_runtime_entrypoint_test
+  COMMAND ${Python3_EXECUTABLE}
+          ${CMAKE_SOURCE_DIR}/tests/component_runtime_contract_test.py
+)
