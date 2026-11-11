@@ -89,3 +89,9 @@ A OpenAPI distingue a superfície já executável (`/health`, `/services`) dos r
 ## Licença
 
 SPDX-License-Identifier: GPL-3.0-or-later
+
+## Premissas de desenvolvimento
+
+**Simples, leve. Sempre pronto. Sempre incompleto!**
+
+[Significado e símbolos das premissas](docs/sister-principles/README.md).
